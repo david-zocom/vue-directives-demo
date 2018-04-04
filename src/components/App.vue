@@ -1,6 +1,17 @@
 <template>
   <div id="app">
     Tomte! {{ color }}
+	<div v-if="viewOption1"> option 1 </div>
+	<div v-if="!viewOption1"> option 2 </div>
+	<ul>
+		<li v-for="x in [2, 4, 8, 16]">
+			<strong>{{ x }}</strong>!!!!
+		</li>
+	</ul>
+	Please enter your favourite animal:
+	<input type="text" v-model="favAnimal" placeholder="Animal" />
+	<br /> {{ favAnimal }}
+	<br />The animal has {{ animalLength }} letters.
   </div>
 </template>
 
@@ -9,6 +20,8 @@
     name: 'app',
 	data: function() {
 		return {
+			favAnimal: 'kanin',
+			viewOption1: false,
 			color: 'magic',
 			another: true,
 			user: {
@@ -16,7 +29,12 @@
 				email: ''
 			}
 		};
-	}  // data
+	},  // data
+	computed: {
+		animalLength: function() {
+			return this.favAnimal.length;
+		}
+	}
   }
 </script>
 
@@ -41,13 +59,13 @@
 <!-- It only affect current component -->
 <style scoped>
   #app {
-    text-align: center;
+    font-family: sans-serif;
   }
 
-  #app h1 {
+  #app h1,li {
     color: #2c3e50;
     font-weight: 300;
-    margin: 0;
+    margin: 20px;
   }
 
   .banner {
