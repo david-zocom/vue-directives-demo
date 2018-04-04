@@ -1,5 +1,32 @@
 <template>
-  <div id="app">
+	<div id="app">
+		<div v-bind:class="cssTheme">
+			<h1>Rubrik</h1>
+			<p>Lite text</p>
+			<button @click="switchThemeGreen">Byt till grönt tema</button> <br />
+			<button @click="switchThemeOther">Byt till annat tema</button>
+		</div>
+		<hr />
+
+		<div>
+			<label><input type="checkbox" @change="changeButtonState" /> Gör klickbar</label> <br />
+			<label><input type="checkbox" v-model="buttonIsEnabled" /> Gör klickbar</label> <br />
+			<button v-bind:disabled="!buttonIsEnabled"> Klickbar? </button>
+			<span v-if="buttonIsEnabled">Synlig!</span> <br />
+		</div>
+
+		<hr />
+
+		<div>
+			<label><input type="radio" value="2" name="numbers" @change="changeRadio" /> Två </label>
+			<label><input type="radio" value="3" name="numbers" @change="changeRadio" /> Tre </label>
+			<ul>
+				<li v-for="n in numbers" v-if="n % numbersT === 0">
+					{{ n }}
+				</li>
+			</ul>
+		</div>
+
     Tomte! {{ color }}
 	<div v-if="viewOption1"> option 1 </div>
 	<div v-if="!viewOption1"> option 2 </div>
@@ -20,6 +47,11 @@
     name: 'app',
 	data: function() {
 		return {
+			numbers: [10, 11, 12, 2, 13, 1, 14000, 35, 79, -12],
+			numbersT: 2,
+			buttonIsEnabled: false,
+			//buttonIsDisabled: true,
+			cssTheme: 'themeBlue',
 			favAnimal: 'kanin',
 			viewOption1: false,
 			color: 'magic',
@@ -34,6 +66,21 @@
 		animalLength: function() {
 			return this.favAnimal.length;
 		}
+	},  // computed
+	methods: {
+		switchThemeGreen: function(event) {
+			this.cssTheme = 'themeBlue';
+		},
+		switchThemeOther: function(event) {
+			this.cssTheme = 'themeGreen';
+		},
+		changeButtonState: function(event) {
+			this.buttonIsEnabled = event.target.checked;
+		},
+		changeRadio: function(event) {
+			console.log('changeRadio', event.target.value);
+			this.numbersT = event.target.value;
+		}
 	}
   }
 </script>
@@ -43,6 +90,12 @@
 
 <!-- Global CSS -->
 <style>
+.themeBlue {
+	background-color: #BCF5A9;
+}
+.themeGreen {
+	background-color: #E2A9F3;
+}
   code {
     font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
     font-size: 0.9em;
